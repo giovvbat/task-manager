@@ -1,0 +1,45 @@
+{% extends 'base.html'%}
+
+{% block page_title %}
+    Lista de Tarefas
+{% endblock page_title %}
+
+{% block content %}
+<h1>Lista de Tarefas</h1>
+
+    {% if task_list %}
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Título</th>
+                <th scope="col">Criado em</th>
+                <th scope="col">Data de entrega</th>
+                <th scope="col">Finalizado em</th>
+                <th scope="col">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for task in task_list %}
+                    <tr>
+                        <th scope="row">{{ task.pk }}</th>
+                        <td>{{ task.title }}</td>
+                        <td>{{ task.created_at }}</td>
+                        <td>{{ task.deadline }}</td>
+                        <td>{{ task.finished_at|default:"-" }}</td>
+                        <td>
+                            <a href="{% url 'task_complete' pk=task.pk %}" class="btn btn-primary btn-sm {% if task.finished_at %}disabled{%endif%}">Concluir</a>
+                            <a href="{% url 'task_update' pk=task.pk %}" class="btn btn-secondary btn-sm {% if task.finished_at %}disabled{%endif%}">Editar</a>
+                            <a href="{% url 'task_delete' pk=task.pk %}" class="btn btn-danger btn-sm">Excluir</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Não há tarefas cadastradas!</p>
+    {% endif %}
+
+    <a href="{% url 'task_create' %}" class="btn btn-primary">Nova Tarefa</a>
+{% endblock content %}
+    

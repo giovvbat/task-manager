@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+    {% if task.pk %}
+        Editar Tarefa
+    {% else %}
+        Cadastrar Nova Tarefa
+    {% endif %}
+{% endblock page_title %}
+
+{% block content %}
+    {% if task.pk %}
+        <h1> Editar Tarefa</h1>
+    {% else %}
+        <h1>Cadastrar Nova Tarefa</h1>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit" class="btn btn-primary">
+            {% if task.pk %}
+                Salvar
+            {% else %}
+                Cadastrar
+            {% endif %}
+        </button>
+    </form>
+{% endblock content %}
